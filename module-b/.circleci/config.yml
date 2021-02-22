@@ -1,0 +1,37 @@
+# Config dedicated for module B
+# All the resources must be prefixed with `module-b-` to avoid conflicts
+
+version: 2.1
+
+orbs:
+  # Note: We are using an older version of hello-build, whereas module A uses the latest
+  module-b-hello-build: circleci/hello-build@0.0.13
+
+jobs:
+  module-b-build:
+    docker:
+      - image: alpine
+    steps:
+      - common-say-hello:
+          to: B
+      - run: echo 'Hello, from module B! :3'
+
+  module-b-postrun:
+    docker:
+      - image: alpine
+    steps:
+      - run: echo 'Another job for B! :3'
+
+workflows:
+  module-b-workflow-x:
+    jobs:
+      - common-pre
+      - module-b-build:
+          requires:
+            - common-pre
+      - module-b-postrun:
+          requires:
+            - module-b-build
+  module-b-workflow-y:
+    jobs:
+      - module-b-hello-build/hello-build
