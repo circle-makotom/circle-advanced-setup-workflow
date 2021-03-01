@@ -22,7 +22,7 @@ parameters:
     default: ""
 
 orbs:
-  continuation: circleci/continuation@dev:alpha
+  continuation: circleci/continuation@0.0.1
 
 # `list-changed-modules` and `merge-modular-configs` are for the setup workflow, and `common-say-hello` for the main workflows
 # Ideally those commands for the setup workflow should be packaged in an orb
