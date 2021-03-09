@@ -5,7 +5,7 @@ This repository demonstrates an advanced use case of setup workflow feature on C
 ## Files
 
 * `.circleci/config.yml` implements both 1) the setup workflow, and 2) common resources (i.e., jobs and commands) for main workflows/jobs.
-* `module-a/.circleci/config.yml` and `module-b/.circleci/config.yml` implement independent modular configs for module A and B, respectively.
+* `module-a/.circleci/config.yml`, `module-b/.circleci/config.yml`, and `module-c/.circleci/config.yml` implement independent modular configs for module A, B, and C, respectively.
 
 ## How does it work?
 

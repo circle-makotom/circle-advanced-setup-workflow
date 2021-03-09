@@ -30,7 +30,13 @@ commands:
   list-changed-modules:
     parameters:
       modules:
-        description: Directories which should be tested for changes; one directory per line, and each directory must have `.circleci/config.yml`
+        description: |
+          Directories which should be built upon changes.
+          Each row represents a space-separated list of the root directories for modules, each of which must has own `.circleci/config.yml`.
+          The first item of the list will be tested for changes, and will be added to the filtered list of modules if there are any changes.
+          The subsequent items, if there are any, will also be added to the filtered list of modules if there are any changes in the directory specified as the first item.
+
+          CAVEAT: Directory names having white spaces cannot be specified.
         type: string
       modules-filtered:
         description: Path to the file where the filtered list of modules is generated
@@ -48,8 +54,8 @@ commands:
       - run:
           name: Generate the list of modules having changes
           command: |
-            # Copy each line in `modules` to `modules-filtered` if 1) `force-all` is set to `true`, 2) there is a diff against `base-revision`, 3) there is no `HEAD~1` (i.e., this is the very first commit for the repo) OR 4) there is a diff against the previous commit
-            cat \<< EOD | sed -e '/^$/d' | while read module; do if [ << parameters.force-all >> == 'true' ] || [ $(git diff --name-only << parameters.base-revision >> "$module" | wc -l) -gt 0 ] || (! git rev-parse --verify HEAD~1) || [ $(git diff --name-only HEAD~1 "$module" | wc -l) -gt 0 ]; then echo "$module" >> << parameters.modules-filtered >>; fi; done
+            # Add each module to `modules-filtered` if 1) `force-all` is set to `true`, 2) there is a diff against `base-revision`, 3) there is no `HEAD~1` (i.e., this is the very first commit for the repo) OR 4) there is a diff against the previous commit
+            cat \<< EOD | sed -e '/^$/d' | while read row; do module="$(echo "$row" | awk '{ print $1 }')"; if [ << parameters.force-all >> == 'true' ] || [ $(git diff --name-only << parameters.base-revision >> "$module" | wc -l) -gt 0 ] || (! git rev-parse --verify HEAD~1) || [ $(git diff --name-only HEAD~1 "$module" | wc -l) -gt 0 ]; then echo "$row" | sed -e 's/ /\n/g' >> << parameters.modules-filtered >>; fi; done
             << parameters.modules >>
             EOD
 
@@ -87,9 +93,8 @@ commands:
             then
               echo "<< parameters.shared-config >>" >> "<< parameters.modules >>"
             fi
-      - run:
-          name: Merge configs
-          command: xargs -a "<< parameters.modules >>" yq -y -s 'reduce .[] as $item ({}; . * $item)' | tee "<< parameters.continue-config >>"
+
+            xargs -a "<< parameters.modules >>" yq -y -s 'reduce .[] as $item ({}; . * $item)' | tee "<< parameters.continue-config >>"
 
   # Custom commands aimed for the main workflows and jobs
   common-say-hello:
@@ -167,4 +172,5 @@ workflows:
           base-revision: main
           modules: |
             module-a
-            module-b
+            module-b module-c
+            module-c
