@@ -3,7 +3,7 @@
 
 version: 2.1
 
-setup: true
+setup: << pipeline.parameters.run-setup >>
 
 # All pipeline parameters need to be defined equally both for the setup workflow and main workflows
 # These parameters will be passed to both of them
@@ -63,7 +63,7 @@ orbs:
   config-splitting:
     # Dependencies
     orbs:
-      continuation: circleci/continuation@0.0.1
+      continuation: circleci/continuation@0.1.2
     # Commands for the setup workflow
     commands:
       list-changed-modules:
