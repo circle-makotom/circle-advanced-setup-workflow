@@ -13,8 +13,8 @@ jobs:
       - image: alpine
     steps:
       - common-say-hello:
-          to: A
-      - run: echo 'Hello world from module A! :3'
+          to: php
+      - run: echo 'Hello world from the php module! :3'
 
 workflows:
   php-workflow:

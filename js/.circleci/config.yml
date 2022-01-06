@@ -14,13 +14,13 @@ jobs:
     steps:
       - common-say-hello:
           to: B
-      - run: echo 'Hello, from module B! :3'
+      - run: echo 'Hello, from the js module! :3'
 
   js-postrun:
     docker:
       - image: alpine
     steps:
-      - run: echo 'Another job for B! :3'
+      - run: echo 'Another job for js! :3'
 
 workflows:
   js-workflow-x:
