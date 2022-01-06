@@ -1,13 +1,13 @@
-# Config dedicated for module C
-# All the resources must be prefixed with `module-c-` to avoid conflicts
+# Config dedicated for e2e module
+# All the resources must be prefixed with `e2e-` to avoid conflicts
 
 version: 2.1
 
 orbs:
-  module-c-hello-build: circleci/hello-build@0.0.14
+  e2e-hello-build: circleci/hello-build@0.0.14
 
 jobs:
-  module-c-build:
+  e2e-build:
     docker:
       - image: alpine
     steps:
@@ -16,12 +16,12 @@ jobs:
       - run: echo 'Hello world from module C! :3'
 
 workflows:
-  module-c-workflow:
+  e2e-workflow:
     jobs:
       - common-pre
-      - module-c-build:
+      - e2e-build:
           requires:
             - common-pre
-      - module-c-hello-build/hello-build:
+      - e2e-hello-build/hello-build:
           requires:
             - common-pre

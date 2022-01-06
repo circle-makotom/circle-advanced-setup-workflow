@@ -1,14 +1,14 @@
-# Config dedicated for module A
-# All the resources must be prefixed with `module-a-` to avoid conflicts
+# Config dedicated for php module
+# All the resources must be prefixed with `php-` to avoid conflicts
 
 version: 2.1
 
 orbs:
   # Note: We are using the latest version of hello-build, whereas module B uses an older one
-  module-a-hello-build: circleci/hello-build@0.0.14
+  php-hello-build: circleci/hello-build@0.0.14
 
 jobs:
-  module-a-build:
+  php-build:
     docker:
       - image: alpine
     steps:
@@ -17,12 +17,12 @@ jobs:
       - run: echo 'Hello world from module A! :3'
 
 workflows:
-  module-a-workflow:
+  php-workflow:
     jobs:
       - common-pre
-      - module-a-build:
+      - php-build:
           requires:
             - common-pre
-      - module-a-hello-build/hello-build:
+      - php-hello-build/hello-build:
           requires:
             - common-pre
