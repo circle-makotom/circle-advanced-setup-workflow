@@ -54,9 +54,9 @@ workflows:
           # Similarly if B is modified, the job for B will run
           # If C is modified, then the jobs for both C and B (as a dependency) will run
           modules: |
-            module-a
-            module-b
-            module-c module-b
+            php
+            js
+            e2e js
 
 orbs:
   # An "embedded" orb to facilitate config splitting
