@@ -50,9 +50,9 @@ workflows:
       - config-splitting/setup-dynamic-config:
           force-all: << pipeline.parameters.force-all >>
           base-revision: main
-          # If A is modified, the job for A will run
-          # Similarly if B is modified, the job for B will run
-          # If C is modified, then the jobs for both C and B (as a dependency) will run
+          # If php is modified, the job for php will run
+          # Similarly if js is modified, the job for js will run
+          # If js is modified, then the jobs for both e2e and js (as a dependency) will run
           modules: |
             php
             js
