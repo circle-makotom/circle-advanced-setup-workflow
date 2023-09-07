@@ -3,7 +3,7 @@
 
 version: 2.1
 
-setup: true
+setup: << pipeline.parameters.run-setup >>
 
 # All pipeline parameters need to be defined equally both for the setup workflow and main workflows
 # These parameters will be passed to both of them
