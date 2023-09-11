@@ -17,27 +17,6 @@ parameters:
     type: string
     default: ""
 
-# Custom commands aimed for the main workflows and jobs
-commands:
-  common-say-hello:
-    parameters:
-      to:
-        description: To whom you say hello
-        type: string
-        default: you anonymous
-    steps:
-      - run: echo 'Greetings to << parameters.to >> from the shared command!'
-      - run: echo 'The value of `custom-parameter` was "<< pipeline.parameters.custom-parameter >>"'
-
-# Common jobs for the main workflows
-jobs:
-  common-pre:
-    docker:
-      - image: alpine
-    steps:
-      - common-say-hello
-      - run: echo 'Jobs with `common-` prefix are intended to be shared among modules'
-
 workflows:
   # The setup workflow
   setup-workflow:
